@@ -10,3 +10,13 @@ Learn:
 - Variables and Constants
 - strings, integers, floats, booleans and `null`
 - `echo` and string interopolation
+
+### Day 2
+
+Learn:
+
+- Arrays and associative arrays
+- `if`, `elseif`, `else`
+- Comparison and logical operators
+
+Practice: Calculate whether a student passed based on marks.
