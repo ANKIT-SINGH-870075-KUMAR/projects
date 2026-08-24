@@ -20,3 +20,13 @@ Learn:
 - Comparison and logical operators
 
 Practice: Calculate whether a student passed based on marks.
+
+### Day 3
+
+Learn:
+
+- `for`, `while`, and `foreach`
+- Functions
+- Parameters and return types
+
+Practice: Write a function that calculates an invoice total.
