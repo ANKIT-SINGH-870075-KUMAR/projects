@@ -78,7 +78,7 @@ if($parquantity <= 0 || $parprice <= 0){
      return ["error"=>"Quantity and price cannot be negative or zero."];
 }
 
-if($parquantity < 5){
+if($parquantity =< 5){
     $discount = 0;
 }else if($parquantity >= 6 && $parquantity <=10){
     $discount = 0.10;
@@ -86,6 +86,8 @@ if($parquantity < 5){
     $discount = 0.15;
     }else if($parquantity > 12){
     $discount = 0.15;
+}else{
+    $discount = 0;
 }
 
 if($parisMember){
@@ -103,7 +105,9 @@ $formatdiscountamount = number_format($discountamount);
 $subtotalafterdiscount = $subtotal - $discountamount;
 $formatsubtotalafterdiscount = number_format($subtotalafterdiscount);
 
-$taxamount = ($subtotalafterdiscount * $product['gst']) / 100;
+$taxamount = ($subtotalafterdiscount * ($product['gst']*100)) / 100;
+
+$formattaxamount = number_format($taxamount);
 
 $subtotalaftertax = $subtotalafterdiscount - $taxamount;
 $formatsubtotalaftertax = number_format($subtotalaftertax);
@@ -128,7 +132,7 @@ $invoicearray = [
      "Discount rate" => "{$discountRate}%",
      "Discount amount" => "₹{$formatdiscountamount}",
      "Amount after discount" => "₹{$formatsubtotalafterdiscount}",
-     "GST" => "({$productGst}%) : ₹{$formatdiscountamount}",
+     "GST" => "({$productGst}%) : ₹{$formattaxamount}",
      "Delivery Charge" => "₹ {$deliveryCharge}",
      "Final total" => "₹{$formatfinalprice}"
 ];

@@ -30,3 +30,13 @@ Learn:
 - Parameters and return types
 
 Practice: Write a function that calculates an invoice total.
+
+### Day 4
+
+Learn:
+
+- HTML forms
+- `$_GET` and `$_POST`
+- Basic server-side validation
+
+Practice: Make a registration form and validate name, email, and password.
