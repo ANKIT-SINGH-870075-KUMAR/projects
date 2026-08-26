@@ -68,31 +68,36 @@ $product = array(
     "productName" => "Desi soota",
     "price" => 50000,
     "quantity" => 7,
-    "discount" => null,
-    "gst" => 0.12,
-    "deliveryCharge" => 1200,
+    "gst" => 0.18,
     "isMember" => true
-)
+);
 
-if($product['quantity'] <= 0 || $product['price'] <= 0){
-    echo "Quantity and price cannot be negative or zero.";
-    die();
+function calculateInvoiceTotal(float $parprice, int $parquantity, bool $parisMember, array $product ): array {
+
+if($parquantity <= 0 || $parprice <= 0){
+     return ["error"=>"Quantity and price cannot be negative or zero."];
 }
 
-if($product['quantity'] < 5){
-    $product['discount'] = 0;
-}else if($product['qquantity'] >= 6 && $product['quantity'] <=10 && !$product['isMember']){
-    $product['discount'] = 0.05;
-}else if($product['quantity'] > 10 && $produt['isMember']){
-    $product['discount'] = 0.10;
-    }else if($product['quantity'] > 12 && $product['isMember']){
-    $product['discount'] = 0.15;
+if($parquantity < 5){
+    $discount = 0;
+}else if($parquantity >= 6 && $parquantity <=10){
+    $discount = 0.10;
+}else if($parquantity > 10){
+    $discount = 0.15;
+    }else if($parquantity > 12){
+    $discount = 0.15;
 }
 
-$subtotal = $product['price'] * $product['quantity'];
+if($parisMember){
+    $discount = $discount + 0.05;
+}
+
+$formatprice = number_format($parprice);
+
+$subtotal = $parprice * $parquantity;
 $formatsubtotal = number_format($subtotal);
 
-$discountamount = ($subtotal * $product['discount']) / 100;
+$discountamount = ($subtotal * ($discount*100)) / 100;
 $formatdiscountamount = number_format($discountamount);
 
 $subtotalafterdiscount = $subtotal - $discountamount;
@@ -103,6 +108,44 @@ $taxamount = ($subtotalafterdiscount * $product['gst']) / 100;
 $subtotalaftertax = $subtotalafterdiscount - $taxamount;
 $formatsubtotalaftertax = number_format($subtotalaftertax);
 
+if($subtotalafterdiscount >= 100000){
+    $deliveryCharge = 0;
+}else{
+    $deliveryCharge = 500;
+}
+
+$finalprice = $subtotalafterdiscount + $taxamount + $deliveryCharge;
+$formatfinalprice = number_format($finalprice);
+
+$discountRate =  $discount * 100;
+$productGst = $product['gst'] * 100;
+
+$invoicearray = [
+     "Product" => "{$product['productName']}",
+     "Price" => "₹ {$formatprice}",
+     "Quantity" => "{$parquantity}",
+     "Subtotal" => "₹{$formatsubtotal}",
+     "Discount rate" => "{$discountRate}%",
+     "Discount amount" => "₹{$formatdiscountamount}",
+     "Amount after discount" => "₹{$formatsubtotalafterdiscount}",
+     "GST" => "({$productGst}%) : ₹{$formatdiscountamount}",
+     "Delivery Charge" => "₹ {$deliveryCharge}",
+     "Final total" => "₹{$formatfinalprice}"
+];
+
+
+return $invoicearray;
+}
+
+$invoiceresult = calculateInvoiceTotal($product['price'], $product['quantity'], $product['isMember'], $product);
+
+echo "<pre>";
+print_r($invoiceresult);
+echo "</pre>";
+
+foreach($invoiceresult as $key => $result){
+    echo "{$key}: {$result} <br> ";
+}
 
 
 ?>
