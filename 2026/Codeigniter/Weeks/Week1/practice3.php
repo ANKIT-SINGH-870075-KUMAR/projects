@@ -78,20 +78,20 @@ if($parquantity <= 0 || $parprice <= 0){
      return ["error"=>"Quantity and price cannot be negative or zero."];
 }
 
-if($parquantity =< 5){
+if($parquantity <= 5){
     $discount = 0;
 }else if($parquantity >= 6 && $parquantity <=10){
     $discount = 0.10;
 }else if($parquantity > 10){
     $discount = 0.15;
-    }else if($parquantity > 12){
-    $discount = 0.15;
-}else{
+    }else{
     $discount = 0;
 }
 
 if($parisMember){
     $discount = $discount + 0.05;
+}else{
+    $discount = 0.10
 }
 
 $formatprice = number_format($parprice);
