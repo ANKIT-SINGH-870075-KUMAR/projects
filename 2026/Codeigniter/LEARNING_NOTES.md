@@ -40,3 +40,14 @@ Learn:
 - Basic server-side validation
 
 Practice: Make a registration form and validate name, email, and password.
+
+### Day 5
+
+Learn:
+
+- `include` and `require`
+- Files and folders
+- Error reporting
+- Exceptions and `try/catch`
+
+Practice: Split a page into header, content, and footer files.

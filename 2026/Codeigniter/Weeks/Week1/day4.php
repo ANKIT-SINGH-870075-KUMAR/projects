@@ -66,7 +66,7 @@ if($conn->connect_error){
 
 echo"Database connected successfully!";
 
-$sqlquery = "INSERT INTO invoice (name, email, password, productname, productprice, productquantity, productgst, isMember, subtotal,subtotaldiscount, discountrate, discountamount, taxamount, finaltotal, deliverycharge) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+$sqlquery = "INSERT INTO invoice (name, email, password, productname, productprice, productquantity, productgst, isMember, subtotal,subtotaldiscount, discountrate, discountamount, taxamount, finaltotal, deliverycharge) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 $stmt = $conn->prepare($sqlquery);
 $stmt->bind_param("ssssdiisddidddd",$name, $email,$password,$productname,$productprice,$productquantity,$productGST,$ismember,$subtotal,$finalsubtotal,$discount,$discountamount,$taxamount,$sellingprice,$deliverycharge);
@@ -91,16 +91,16 @@ while($invoice = $invoicepanel->fetch_assoc()){
     $formatinfinaltotal = number_format($invoice['finaltotal']);
 
 
-    echo "Product: {$invoice['productname']}
-     Price: ₹ {$formatinprice}
-     Quantity: {$invoice['productquantity']}
-     Subtotal: ₹{$formatinsubtotal}
-     Discount rate: {$invoice['discountrate']}%
-     Discount amount: ₹{$formatindiscountamount}
-     Amount after discount: ₹{$formatinsubtototaldiscount}
-     GST: ({$invoice['productgst']}%) : ₹{$formatintaxamount}
-     Delivery Charge: ₹ {$formatindeliverycharge}
-     Final total: ₹{$formatinfinaltotal}";
+     echo "Product: ".htmlspecialchars($invoice['productname']). "<br>";
+    echo "Price: ₹". htmlspecialchars($formatinprice). "<br>";
+    echo "Quantity: ". htmlspecialchars($invoice['productquantity']). "<br>";
+    echo "Subtotal: ₹". htmlspecialchars($formatinsubtotal). "<br>";
+    echo "Discount rate: ". htmlspecialchars($invoice['discountrate'])."% <br>";
+    echo "Discount amount: ₹". htmlspecialchars($formatindiscountamount)."<br>";
+    echo "Amount after discount: ₹". htmlspecialchars($formatinsubtototaldiscount). "<br>";
+    echo "GST: (". htmlspecialchars($invoice['productgst']). "%) : ₹". htmlspecialchars($formatintaxamount). "<br>";
+    echo "Delivery Charge: ₹". htmlspecialchars($formatindeliverycharge). "<br>";
+    echo "Final total: ₹". htmlspecialchars($formatinfinaltotal). "<br>";
 }
 
 }
@@ -172,7 +172,7 @@ if($conn->connect_error){
 
 echo"Database connected successfully!";
 
-$sqlquery = "INSERT INTO invoice (name, email, password, productname, productprice, productquantity, productgst, isMember, subtotal,subtotaldiscount, discountrate, discountamount, taxamount, finaltotal, deliverycharge) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+$sqlquery = "INSERT INTO invoice (name, email, password, productname, productprice, productquantity, productgst, isMember, subtotal,subtotaldiscount, discountrate, discountamount, taxamount, finaltotal, deliverycharge) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 $stmt = $conn->prepare($sqlquery);
 $stmt->bind_param("ssssdiisddidddd",$name, $email,$password,$productname,$productprice,$productquantity,$productGST,$ismember,$subtotal,$finalsubtotal,$discount,$discountamount,$taxamount,$sellingprice,$deliverycharge);
@@ -197,16 +197,16 @@ while($invoice = $invoicepanel->fetch_assoc()){
     $formatinfinaltotal = number_format($invoice['finaltotal']);
 
 
-    echo "Product: {$invoice['productname']}
-     Price: ₹ {$formatinprice}
-     Quantity: {$invoice['productquantity']}
-     Subtotal: ₹{$formatinsubtotal}
-     Discount rate: {$invoice['discountrate']}%
-     Discount amount: ₹{$formatindiscountamount}
-     Amount after discount: ₹{$formatinsubtototaldiscount}
-     GST: ({$invoice['productgst']}%) : ₹{$formatintaxamount}
-     Delivery Charge: ₹ {$formatindeliverycharge}
-     Final total: ₹{$formatinfinaltotal}";
+    echo "Product: ".htmlspecialchars($invoice['productname']). "<br>";
+    echo "Price: ₹". htmlspecialchars($formatinprice). "<br>";
+    echo "Quantity: ". htmlspecialchars($invoice['productquantity']). "<br>";
+    echo "Subtotal: ₹". htmlspecialchars($formatinsubtotal). "<br>";
+    echo "Discount rate: ". htmlspecialchars($invoice['discountrate'])."% <br>";
+    echo "Discount amount: ₹". htmlspecialchars($formatindiscountamount)."<br>";
+    echo "Amount after discount: ₹". htmlspecialchars($formatinsubtototaldiscount). "<br>";
+    echo "GST: (". htmlspecialchars($invoice['productgst']). "%) : ₹". htmlspecialchars($formatintaxamount). "<br>";
+    echo "Delivery Charge: ₹". htmlspecialchars($formatindeliverycharge). "<br>";
+    echo "Final total: ₹". htmlspecialchars($formatinfinaltotal). "<br>";
 }
 
 }
@@ -270,6 +270,22 @@ while($invoice = $invoicepanel->fetch_assoc()){
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                         </div>
                         <div class="form-control">
@@ -341,10 +357,26 @@ while($invoice = $invoicepanel->fetch_assoc()){
                             </label>
                             <select name="productquantity" id="pproductquantity">
                                 <option value="">Select Quantity</option>
-                                <option value="1">1</option>
+                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
                         </div>
                         <div class="form-control">
