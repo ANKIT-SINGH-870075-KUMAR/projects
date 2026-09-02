@@ -1,6 +1,6 @@
 <!-- Create Dynamic Input Fields -->
 <?php
-require 'ddata.php';
+require 'data.php';
 
 function createInputFields(Array $numFields, Array $dropdownOptions): void {
   forEach($numFields as $key => $value){
