@@ -7,7 +7,7 @@ function createInputFields(Array $numFields, Array $dropdownOptions): void {
     switch($value[1]){
         case $value[1] == "text" || $value[1] == 'email' || $value[1] == 'password' || $value[1] == 'number':
             echo '
-            <div class="form-control>
+            <div class="form-control">
             <label for="'.$value[0].'">'.$key.'</label>
             <input type="'. $value[1] .'" name="'.$value[0].'" placeholder="Please enter your '.$key.'">
             </div>
@@ -18,11 +18,11 @@ function createInputFields(Array $numFields, Array $dropdownOptions): void {
                 <div class="form-control">
                 <label for="'.$value[0].'">'.$key.'</label>
                 <select name="'.$value[0].'">
-                    <option value="">Select '. $key .'</option>'.
-                    forEach($dropddownOptions[$key] as $optionValue => $optionText){
+                    <option value="">Select '. $key .'</option>';
+                    forEach($dropdownOptions[$key] as $optionValue => $optionText){
                         echo '<option value="'.$optionValue.'">'.$optionText.'</option>';
-                    }.'
-                </select>
+                    }
+              echo '</select>
                 </div>
                     ';
             break;
@@ -41,6 +41,6 @@ function createInputFields(Array $numFields, Array $dropdownOptions): void {
   }
 }
 
-createInputFields($numFields, $dropddownOptions);
+createInputFields($numFields, $dropdownOptions);
 
 ?> 
