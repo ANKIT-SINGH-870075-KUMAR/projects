@@ -6,23 +6,28 @@ require 'data.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $newpassword = $_POST['password'];
-            $password1 = password_hash($newpassword, PASSWORD_DEFAULT);
+      $password1 = password_hash($newpassword, PASSWORD_DEFAULT);
 
   $ERRORLIST = ["error" => ""];
-     
+
   forEach($numFields as $key => $value){
+     $field[$value[0]] = $value[0];
+  }
+     
+  forEach($field as $key => $value){
     try{
-        if(!isset($_POST[$value[0]]) || empty($_POST[$value[0]])){
+        if(!isset($_POST[$value]) || $_POST[$value] === ""){
             $ERRORLIST["error"] = "Error: ".$key." field is required.";
-        }else if($value[0] == 'name' && strlen($_POST[$value[0]]) < 3){
+        }else if($value === 'name' && (strlen($_POST[$value]) < 3)){
             $ERRORLIST["error"] = "Error: ".$key." must be at least 3 characters long.";
-        }else if($value[0] == 'email' && !filter_var($_POST[$value[0]], FILTER_VALIDATE_EMAIL)){
+        }else if($value === 'email' && (!filter_var($_POST[$value], FILTER_VALIDATE_EMAIL))){
             $ERRORLIST["error"] = "Error: ".$key." must be a valid email address.";
-        }else if($value[0] == 'product_price' && $_POST[$value[0]] <= 0){
+        }else if($value === 'product_price' && ($_POST[$value] <= 0)){
             $ERRORLIST["error"] = "Error: ".$key." must be a positive number.";
-        }else if($value[0] == 'product_name' && strlen($_POST[$value[0]]) >= 5 && strlen($_POST[$value[0]]) <= 30){
+        }else if($value === 'product_name' && (strlen($_POST[$value]) < 5 || strlen($_POST[$value]) > 30)){
             $ERRORLIST["error"] = "Error: ".$key." must be between 5 and 30 characters long.";
         }else{
+            if($ERRORLIST["error"] === ''){
             $name = $_POST['name'];
             $email = $_POST['email'];
             $password =  $password1;
@@ -54,6 +59,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
 
              mysqli_close($conn);
+            }else{
+                echo "<h1>";
+                print_r($ERRORLIST["error"]);
+                echo "</h1>";
+            }
             }
     }catch(Throwable $e){
         $ERRORLIST["error"] = "Error: ".$e->getMessage();
