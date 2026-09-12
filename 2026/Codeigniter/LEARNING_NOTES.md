@@ -51,3 +51,12 @@ Learn:
 - Exceptions and `try/catch`
 
 Practice: Split a page into header, content, and footer files.
+
+### Day 6 — Review project
+
+Build a plain-PHP **Expense Calculator**:
+
+- Form to enter title and amount
+- Validate the values
+- Store expenses temporarily in an array
+- Display total expenses
