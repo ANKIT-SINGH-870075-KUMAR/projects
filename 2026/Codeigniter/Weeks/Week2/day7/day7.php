@@ -33,15 +33,16 @@ $validate = new ExpenseValidator();
 
 if ($_SERVER['REQUEST_METHOD'] === "GET" && isset($_GET['gid'])) {
 
-    $id = (int) $_GET['gid'];
+  $id = (int) $_GET['gid'];
+  header('Content-Type: application/json');
 
     $record = $expense->find($id);
     
-    header('Content-Type: application/json');
 
     if ($record) {
 
         echo json_encode([
+            "status_Code" => 200,
             'status' => true,
             'data' => $record,
             'message' => 'Expense found successfully.'
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET" && isset($_GET['gid'])) {
     } else {
 
         echo json_encode([
+            'status Code' => 404,
             'status' => false,
             'message' => 'Expense not found.'
         ]);
@@ -60,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === "GET" && isset($_GET['gid'])) {
 
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
+
+session_start();
 //   <!-- Expense Calculator Application
 
 // Attribute
@@ -82,19 +86,28 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 // -->
 
 if(isset($_POST['id'])){
-  $isdelete = $expense->delete($_POST['id']);
+  $id = (int) $_POST['id'];
+  $isdelete = $expense->delete($id);
   if($isdelete){
     header('Content-Type: application/json');
 
      echo json_encode([
+        "status_Code" => 200,
         'status' => TRUE,
         'message' => $isdelete
             ? 'Expense deleted successfully.'
             : 'Unable to delete expense.'
     ]);
-
+  }else {
+          http_response_code(404);  
+          echo json_encode([
+            "status_Code" => 404,
+            'status' => false,
+            'message' => 'Expense ID is Required.'
+        ]);
+    }
     exit;
-  }
+
 }
 
 $title = $_POST['title'];
@@ -108,6 +121,7 @@ $description="this is description";
 $postdata = Array('title'=>$title, 'amount' => $amount, 'category' => $category, 'payment_method' => $payment_method , 'expense_date' => $expense_date );
 
 $isvalid = $validate->validate($postdata);
+header('Content-Type: application/json');  
 
 if($isvalid){
 
@@ -121,18 +135,28 @@ if(isset($_POST['editid']) && $_POST['editid'] !== ''){
   
   if ($editrecord) {
     $isupdate = $expense->update($_POST['editid'], $expense_date,$title,$category,$amount,$payment_method, $description);
-
+    if($isupdate){
+     http_response_code($isupdate ? 200 : 500);
      echo json_encode([
+        "status_Code" => $isupdate ? 200 : 500,
         'status' => TRUE,
         'message' => $isupdate
             ? 'Expense Updated successfully.'
             : 'Unable to update expense.'
     ]);
+    }else{
+      http_response_code(400);  
+      echo json_encode([
+        "status_Code" => 400,
+        'status' => false,
+        'message' => 'Expense ID is Required.'
+    ]);
 
-    
+    }
     } else {
-
+          http_response_code(404);  
           echo json_encode([
+            "status_Code" => 404,
             'status' => false,
             'message' => 'Expense not found.'
         ]);
@@ -140,15 +164,24 @@ if(isset($_POST['editid']) && $_POST['editid'] !== ''){
 }else{
   $expense->addexpense($expense_date,$title,$category,$amount,$payment_method, $description);
   $message =$expense->describe();
-  $incomemessage = $incomeproof->describe();
-  echo $message;
-  echo $incomemessage;
+  $_SESSION['expensedetails'] = [
+    "title"         => $title,
+    "amount"        => $amount,
+    "expense_date"  => $expense_date,
+    "category"      => $category,
+    "payment_method"=> $payment_method,
+    "description"   => $description
+  ];
+  http_response_code(201);    
+  echo json_encode(["status_code" => 201, "status" => true, "message" => $message]);
 }
 
 }else{
   $errorreport = $validate->getErrors();
-  print_r($errorreport);
+  http_response_code(422);                       // ← your P2, on the status line
+  echo json_encode(["status_code" => 422, "status" => false, "errors" => $errorreport]);
 }
+exit;
 }
 
 
